@@ -185,6 +185,62 @@
       "level": 3,
       "parallelGroup": 3,
       "output": "docs/self-evolution-design.md"
+    },
+    {
+      "id": "T012",
+      "title": "信息源跟踪系统设计",
+      "description": "整合 YouTube/B站/RSS 为统一信息源跟踪工作流",
+      "acceptanceCriteria": [
+        "定义信息源类型和优先级",
+        "设计定时扫描机制",
+        "设计信息提取和推送流程",
+        "输出信息源跟踪设计方案"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "P1 - 完成，设计了三层信息源架构和可信度模型",
+      "dependencies": ["T001", "T002", "T004"],
+      "level": 4,
+      "parallelGroup": 4,
+      "output": "docs/information-tracking-design.md"
+    },
+    {
+      "id": "T013",
+      "title": "B站视频搜索→信息提取流程",
+      "description": "设计 B站搜索到视频总结的完整流程",
+      "acceptanceCriteria": [
+        "集成 bilibili-api 搜索功能",
+        "设计字幕提取流程",
+        "设计 AI 总结流程",
+        "整合 UP 主知名度判断",
+        "输出完整工作流文档"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "P1 - 完成，设计了搜索→筛选→提取→总结完整流程",
+      "dependencies": ["T012"],
+      "level": 4,
+      "parallelGroup": 4,
+      "output": "docs/bilibili-workflow.md"
+    },
+    {
+      "id": "T014",
+      "title": "深度项目 review 自动触发机制",
+      "description": "设计代码变更自动触发 code-reviewer 的机制",
+      "acceptanceCriteria": [
+        "设计 hook 检测代码变更",
+        "设计 review 触发条件",
+        "集成 code-reviewer agent",
+        "测试自动触发效果",
+        "输出设计方案和测试报告"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "P2 - 完成，设计了 Hook + 触发条件 + 交互流程",
+      "dependencies": ["T006", "T010"],
+      "level": 4,
+      "parallelGroup": 4,
+      "output": "docs/auto-review-design.md"
     }
   ],
   "executionPlan": {
@@ -219,14 +275,26 @@
         ],
         "canParallelize": false,
         "description": "进阶设计任务，需要讨论决策"
+      },
+      {
+        "level": 4,
+        "tasks": [
+          "T012",
+          "T013",
+          "T014"
+        ],
+        "canParallelize": false,
+        "description": "信息源跟踪和自动化增强，串行执行"
       }
     ],
     "criticalPath": [
       "T005",
       "T008",
-      "T011"
+      "T011",
+      "T012",
+      "T013"
     ],
-    "estimatedWaves": 3
+    "estimatedWaves": 4
   },
   "decisionPoints": [
     {
@@ -269,6 +337,24 @@
       "impact": "决定是否启动 Level 3 自我进化设计",
       "resolved": true,
       "chosen": "暂缓，继续验证其他 Skills 积累经验"
+    },
+    {
+      "id": "D4",
+      "after": [
+        "T012",
+        "T013"
+      ],
+      "before": [
+        "T014"
+      ],
+      "question": "信息源跟踪方案确定后，是否需要实现自动化工具？",
+      "options": [
+        "立即实现 Python 脚本",
+        "设计为 Skill，手动触发",
+        "仅保留设计文档"
+      ],
+      "impact": "决定信息源跟踪的落地方式",
+      "resolved": false
     }
   ],
   "outputs": {
@@ -284,7 +370,10 @@
       "docs/skill-evaluation.md",
       "docs/hook-testing-report.md",
       "docs/self-evolution-design.md",
-      "docs/skills-verification-report.md"
+      "docs/skills-verification-report.md",
+      "docs/information-tracking-design.md",
+      "docs/bilibili-workflow.md",
+      "docs/auto-review-design.md"
     ],
     "templates": [
       "templates/project-init/"
