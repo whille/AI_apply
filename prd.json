@@ -184,28 +184,6 @@
       "level": 2,
       "parallelGroup": 2,
       "output": "docs/hook-testing-report.md"
-    },
-    {
-      "id": "T011",
-      "title": "实现视频/公众号 MCP",
-      "description": "基于调研结果实现视频字幕和公众号内容获取 MCP",
-      "acceptanceCriteria": [
-        "根据 T001-T004 决策实现",
-        "编写 MCP Server",
-        "测试功能可用性"
-      ],
-      "priority": 2,
-      "passes": true,
-      "notes": "依赖调研决策 D1",
-      "dependencies": [
-        "T001",
-        "T002",
-        "T003",
-        "T004"
-      ],
-      "level": 2,
-      "parallelGroup": 2,
-      "output": "mcp_servers/media-content/"
     }
   ],
   "executionPlan": {
@@ -229,8 +207,7 @@
         "tasks": [
           "T008",
           "T009",
-          "T010",
-          "T011"
+          "T010"
         ],
         "canParallelize": true,
         "description": "实现类任务，依赖 Level 1 完成"
@@ -243,28 +220,6 @@
     "estimatedWaves": 2
   },
   "decisionPoints": [
-    {
-      "id": "D1",
-      "after": [
-        "T001",
-        "T002",
-        "T003",
-        "T004"
-      ],
-      "before": [
-        "T011"
-      ],
-      "question": "调研结果如何转换为实际能力？",
-      "options": [
-        "封装为 MCP Server",
-        "封装为 CLI skill",
-        "手动使用 + AI 协助",
-        "暂不实现"
-      ],
-      "impact": "决定 T011 的实现方式",
-      "resolved": true,
-      "chosen": "自制脚本或扩展转成 agent 的 skill/rule/hook；可用工具安装到系统；完成后更新文档说明"
-    },
     {
       "id": "D2",
       "after": [
@@ -302,9 +257,6 @@
     ],
     "templates": [
       "templates/project-init/"
-    ],
-    "mcp": [
-      "mcp_servers/media-content/"
     ]
   }
 }
