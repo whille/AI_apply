@@ -1,40 +1,20 @@
-# Progress for T001
-Started: Sun Apr 19 14:36:14 CST 2026
-Completed: Sun Apr 19 14:38:00 CST 2026
+# Progress for T006
+Started: Sun Apr 19 14:38:45 CST 2026
+Completed: Sun Apr 19 14:58:32 CST 2026
 
-## 任务：YouTube 字幕提取调研
+## 完成内容
 
-### 完成内容
+1. 创建标准目录结构 `templates/project-init/.claude/`
+2. 创建 CLAUDE.md 模板 - 项目配置模板
+3. 创建 rules/project-rules.md - 项目规则模板
+4. 创建 skills/project-skill/SKILL.md - 项目技能模板
+5. 创建 settings.json - Hook 配置模板
+6. 更新 README.md 详细使用说明
+7. 更新 05_harness.md 待办状态
 
-1. **调研 yt-dlp 字幕下载能力**
-   - ✅ 验证 yt-dlp 支持中文字幕下载
-   - ✅ 支持 `--write-subs` (手动上传字幕)
-   - ✅ 支持 `--write-auto-subs` (YouTube 自动生成字幕)
-   - ✅ 支持 `--sub-langs zh/zh-Hans/zh-Hant` 指定中文
+## 验收标准完成情况
 
-2. **输出文档**
-   - 创建 `docs/skills/youtube-subtitle.md`
-   - 包含：安装、核心命令、语言代码、注意事项、Whisper 备选方案
-
-3. **更新跟踪文件**
-   - 更新 `01_tracking.md` Task 1 状态为已完成
-
-4. **决策产出**
-   - 推荐封装为 CLI Skill
-   - MCP Server 开发成本高，暂不推荐
-   - 手动使用效率低，仅作为备选
-
-### 验收标准检查
-
-| 标准 | 状态 |
-|------|------|
-| 验证 yt-dlp 是否支持中文字幕下载 | ✅ |
-| 输出使用命令和注意事项 | ✅ |
-| 更新 01_tracking.md 调研结果 | ✅ |
-| 产出决策：封装为 MCP/skill/手动使用 | ✅ 推荐 CLI Skill |
-
-### 产出文件
-
-- `docs/skills/youtube-subtitle.md` - 完整调研文档
-
-任务完成。
+- [x] 设计标准目录结构
+- [x] 创建 CLAUDE.md 模板
+- [x] 创建 rules/skills 示例
+- [x] 更新 05_harness.md

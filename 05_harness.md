@@ -265,7 +265,7 @@ trigger: 触发条件（关键词/正则）
 ## 待办
 
 - [x] 整理常用 skill 组合
-- [x] 创建项目初始化模板
+- [x] 创建项目初始化模板（已完成 T006）
 - [ ] 建立技能效果评估方法
 - [ ] 测试 hook 自动触发
 
@@ -301,11 +301,11 @@ templates/project-init/
 ### 模板内容
 
 - **CLAUDE.md**: 项目级配置模板，包含项目信息、开发规范、Rules/Skills 引用
-- **project-rules.md**: 项目规则模板
-- **project-skill/**: 项目技能模板
-- **settings.json**: Hook 配置模板
+- **project-rules.md**: 项目规则模板，包含命名规范、代码结构、错误处理、测试规范
+- **project-skill/**: 项目技能模板，包含触发条件、执行流程、参数说明、输出格式
+- **settings.json**: Hook 配置模板，包含 PreToolUse、PostToolUse、权限配置
 
-详见 `templates/project-init/README.md`。
+详细使用说明见 `templates/project-init/README.md`。
 
 ## 状态
 
