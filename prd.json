@@ -359,13 +359,13 @@
   ],
   "outputs": {
     "skills": [
+      "skills/info-tracker/SKILL.md",
+      "skills/bilibili-analyzer/SKILL.md",
       "~/.claude/skills/log-analyzer/SKILL.md",
-      "~/.claude/skills/test-case-generator/SKILL.md",
-      "~/.claude/skills/info-tracker/SKILL.md",
-      "~/.claude/skills/bilibili-analyzer/SKILL.md"
+      "~/.claude/skills/test-case-generator/SKILL.md"
     ],
     "hooks": [
-      "~/.claude/hooks/review-trigger.py"
+      "hooks/review-trigger.py"
     ],
     "docs": [
       "docs/skills/youtube-subtitle.md",
