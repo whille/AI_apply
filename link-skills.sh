@@ -12,7 +12,7 @@ CLAUDE_DIR="$HOME/.claude"
 
 # 自研 skills 列表
 SELF_SKILLS=(
-    "info-tracker"
+    "intel"
     "bilibili-analyzer"
     "log-analyzer"
     "test-case-generator"

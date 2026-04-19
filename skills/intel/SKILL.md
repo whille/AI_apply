@@ -448,11 +448,11 @@ wiki:
 ### 协作流程
 
 ```
-用户: /intel daily
+用户: /intel Claude Agent
       ↓
   扫描信息源 → 筛选 TopN → 生成 MD 报告
       ↓
-  保存到 reports/YYYY-MM-DD.md
+  保存到 reports/2026-04-19-claude-agent.md
       ↓
   自动提示: "是否导入到知识库？[y/n]"
       ↓
@@ -464,15 +464,15 @@ wiki:
   ├── wiki/entities/Claude-Agent.md (新增)
   ├── wiki/entities/MCP-Protocol.md (新增)
   ├── wiki/topics/Agent-SDK.md (更新)
-  └── wiki/sources/2026-04-19-daily.md (素材页)
+  └── wiki/sources/2026-04-19-claude-agent.md (素材页)
 ```
 
 ### 手动导入
 
 ```bash
 # 扫描后手动导入
-/intel daily
-/llm-wiki ingest ~/.claude/intel/reports/2026-04-19.md
+/intel Claude Agent
+/llm-wiki ingest ~/.claude/intel/reports/2026-04-19-claude-agent.md
 
 # 批量导入历史报告
 /llm-wiki batch-ingest ~/.claude/intel/reports/

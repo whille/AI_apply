@@ -359,7 +359,7 @@
   ],
   "outputs": {
     "skills": [
-      "skills/info-tracker/SKILL.md",
+      "skills/intel/SKILL.md",
       "skills/bilibili-analyzer/SKILL.md",
       "skills/log-analyzer/SKILL.md",
       "skills/test-case-generator/SKILL.md",

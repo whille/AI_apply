@@ -9,10 +9,11 @@
 ```
 AI_apply/
 ├── skills/                    # 自研 Skills（Git 追踪）
-│   ├── info-tracker/         # 信息源跟踪
+│   ├── intel/                 # 信息源跟踪（参考 Horizon 架构）
 │   ├── bilibili-analyzer/    # B站视频分析
 │   ├── log-analyzer/         # 日志分析
-│   └── test-case-generator/  # 测试用例生成
+│   ├── test-case-generator/  # 测试用例生成
+│   └── deep-review/          # 深度多维度代码审查
 ├── hooks/                     # 自研 Hooks
 │   └── review-trigger.py    # 代码提交前安全扫描
 ├── docs/                      # 设计文档
@@ -49,7 +50,7 @@ cd AI_apply
 这会将 AI_apply 的 Skills 链接到 Claude Code 的全局 Skills 目录：
 
 ```
-~/.claude/skills/info-tracker     → AI_apply/skills/info-tracker
+~/.claude/skills/intel     → AI_apply/skills/intel
 ~/.claude/skills/bilibili-analyzer → AI_apply/skills/bilibili-analyzer
 ~/.claude/skills/log-analyzer      → AI_apply/skills/log-analyzer
 ~/.claude/skills/test-case-generator → AI_apply/skills/test-case-generator
@@ -60,8 +61,8 @@ cd AI_apply
 软链接创建后，在任何项目中都可以使用：
 
 ```bash
-/info-tracker daily              # 每日信息扫描
-/info-tracker bilibili Claude    # B站关键词搜索
+/intel daily              # 每日信息扫描
+/intel bilibili Claude    # B站关键词搜索
 
 /bilibili-analyzer Claude Agent  # 分析B站视频
 
@@ -74,15 +75,15 @@ cd AI_apply
 
 ## Skills 说明
 
-### info-tracker
+### intel
 
 统一信息源跟踪，整合 B站/GitHub/RSS。
 
 ```bash
-/info-tracker [daily|weekly]           # 定时扫描
-/info-tracker bilibili <关键词>         # B站搜索
-/info-tracker github trending          # GitHub Trending
-/info-tracker rss <URL>                 # RSS 订阅
+/intel [daily|weekly]           # 定时扫描
+/intel bilibili <关键词>         # B站搜索
+/intel github trending          # GitHub Trending
+/intel rss <URL>                 # RSS 订阅
 ```
 
 ### bilibili-analyzer
