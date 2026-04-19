@@ -40,23 +40,6 @@
       "output": "docs/skills/bilibili-subtitle.md"
     },
     {
-      "id": "T003",
-      "title": "公众号内容获取调研",
-      "description": "调研微信公众号内容获取方案",
-      "acceptanceCriteria": [
-        "评估微信读书 API 可用性",
-        "设计手动导出 + AI 整理流程（备选）",
-        "更新 01_tracking.md 调研结果"
-      ],
-      "priority": 1,
-      "passes": true,
-      "notes": "生态封闭，可能需要人工介入",
-      "dependencies": [],
-      "level": 1,
-      "parallelGroup": 1,
-      "output": "docs/skills/wechat-content.md"
-    },
-    {
       "id": "T004",
       "title": "RSS 订阅方案调研",
       "description": "调研 RSS MCP 或其他订阅方案",
@@ -193,7 +176,6 @@
         "tasks": [
           "T001",
           "T002",
-          "T003",
           "T004",
           "T005",
           "T006",
@@ -250,7 +232,6 @@
     "docs": [
       "docs/skills/youtube-subtitle.md",
       "docs/skills/bilibili-subtitle.md",
-      "docs/skills/wechat-content.md",
       "docs/skills/rss-subscription.md",
       "docs/skill-evaluation.md",
       "docs/hook-testing-report.md"
