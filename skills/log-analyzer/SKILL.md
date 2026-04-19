@@ -1,4 +1,5 @@
 ---
+version: 1.0.0
 name: log-analyzer
 description: "Analyze logs to identify errors, patterns, and root causes. Use when debugging production issues, investigating failures, or understanding log patterns. Triggers on: analyze logs, log analysis, debug logs, parse logs, error patterns, 日志分析, find root cause in logs."
 user-invocable: true
@@ -13,6 +14,7 @@ triggers:
   - "find root cause"
   - "log investigation"
   - "trace errors"
+last_updated: 2026-04-19
 ---
 
 # Log Analyzer

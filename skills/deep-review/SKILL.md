@@ -1,5 +1,6 @@
 ---
 name: deep-review
+version: 1.0.0
 description: 深度多维度代码审查，并行审查安全/质量/性能/架构四维度。
 user-invocable: true
 argument-hint: "[files|directory] 或留空审查当前变更"
@@ -9,12 +10,14 @@ triggers:
   - "deep review"
   - "多维度审查"
   - "comprehensive review"
+last_updated: 2026-04-19
 ---
 
 # Deep Review
 
 深度多维度代码审查，使用并行 subagents 全面分析代码。
 
+last_updated: 2026-04-19
 ---
 
 ## 与原生 /review 的区别
@@ -27,6 +30,7 @@ triggers:
 | 输出格式 | 标准 | 分维度报告 + 汇总 |
 | 修复建议 | 有 | 有 + 自动生成代码 |
 
+last_updated: 2026-04-19
 ---
 
 ## 审查流程
@@ -69,6 +73,7 @@ triggers:
 └─────────────────────┘
 ```
 
+last_updated: 2026-04-19
 ---
 
 ## 四维度审查内容
@@ -113,6 +118,7 @@ triggers:
 | **扩展性** | 难以扩展的设计 |
 | **一致性** | 风格不统一 |
 
+last_updated: 2026-04-19
 ---
 
 ## 使用方式
@@ -160,6 +166,7 @@ triggers:
 5. 生成修复代码并应用
 ```
 
+last_updated: 2026-04-19
 ---
 
 ## 输出报告模板
@@ -208,6 +215,7 @@ triggers:
 - [ ] 密码硬编码 - 待处理
 ```
 
+last_updated: 2026-04-19
 ---
 
 ## 与原生 review 的集成
@@ -222,6 +230,7 @@ triggers:
 /deep-review
 ```
 
+last_updated: 2026-04-19
 ---
 
 ## 配置选项

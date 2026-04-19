@@ -1,6 +1,7 @@
 ---
 name: bilibili-analyzer
-description: 分析B站视频，提取关键信息并生成结构化报告。支持关键词搜索、UP主可信度评估、AI摘要。Use when: 分析b站, bilibili分析, b站视频, analyze bilibili, b站搜索.
+version: 1.0.0
+description: 分析B站视频，提取关键信息并生成结构化报告。支持关键词搜索、UP主可信度评估、AI摘要。
 user-invocable: true
 argument-hint: "<关键词> 或 --uploader <UID>"
 triggers:
@@ -10,12 +11,14 @@ triggers:
   - "analyze bilibili"
   - "b站搜索"
   - "B站"
+last_updated: 2026-04-19
 ---
 
 # B站视频分析器
 
 从搜索到结构化总结的完整流程。
 
+last_updated: 2026-04-19
 ---
 
 ## 功能
@@ -26,6 +29,7 @@ triggers:
 4. **AI 总结**：结构化摘要
 5. **价值判断**：是否值得深入
 
+last_updated: 2026-04-19
 ---
 
 ## 使用方式
@@ -54,6 +58,7 @@ triggers:
 
 分析单个视频详情。
 
+last_updated: 2026-04-19
 ---
 
 ## 工作流程
@@ -119,6 +124,7 @@ triggers:
 └─────────────────┘
 ```
 
+last_updated: 2026-04-19
 ---
 
 ## 可信度计算模型
@@ -183,6 +189,7 @@ def calculate_credibility(user_info, relation_info, up_stat):
 | **C** | 20-39 | 1千-1万 | 谨慎参考 |
 | **D** | <20 | <1千 | 需验证 |
 
+last_updated: 2026-04-19
 ---
 
 ## AI 总结模板
@@ -202,6 +209,7 @@ def calculate_credibility(user_info, relation_info, up_stat):
 ## 内容
 {subtitle_or_desc}
 
+last_updated: 2026-04-19
 ---
 
 请输出：
@@ -221,6 +229,7 @@ def calculate_credibility(user_info, relation_info, up_stat):
 ### 5. 核心关键词
 ```
 
+last_updated: 2026-04-19
 ---
 
 ## 报告模板
@@ -232,6 +241,7 @@ def calculate_credibility(user_info, relation_info, up_stat):
 > 分析时间：{timestamp}
 > 高价值视频：{high_count} 个
 
+last_updated: 2026-04-19
 ---
 
 ## 📊 统计
@@ -243,6 +253,7 @@ def calculate_credibility(user_info, relation_info, up_stat):
 | 中等可信度 (B) | {medium} |
 | 低可信度 (C/D) | {low} |
 
+last_updated: 2026-04-19
 ---
 
 ## 🌟 高价值视频
@@ -267,6 +278,7 @@ def calculate_credibility(user_info, relation_info, up_stat):
 
 **是否值得深入**：{recommendation}
 
+last_updated: 2026-04-19
 ---
 
 ## 📝 中等价值视频
@@ -276,6 +288,7 @@ def calculate_credibility(user_info, relation_info, up_stat):
 1. [{title}]({url}) - 可信度：{score}
 2. ...
 
+last_updated: 2026-04-19
 ---
 
 ## 💡 分析总结
@@ -288,6 +301,7 @@ def calculate_credibility(user_info, relation_info, up_stat):
 - {rec_1}
 ```
 
+last_updated: 2026-04-19
 ---
 
 ## 前置依赖
@@ -350,6 +364,7 @@ async def analyze_video(bvid: str):
     }
 ```
 
+last_updated: 2026-04-19
 ---
 
 ## 注意事项
@@ -359,6 +374,7 @@ async def analyze_video(bvid: str):
 3. **隐私设置**：部分 UP 主信息可能获取失败
 4. **已删除视频**：跳过处理
 
+last_updated: 2026-04-19
 ---
 
 ## 与 info-tracker 集成

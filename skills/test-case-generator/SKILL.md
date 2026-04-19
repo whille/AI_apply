@@ -1,6 +1,8 @@
 ---
+version: 1.0.0
 name: test-case-generator
 description: Generate comprehensive test cases for your code. Use this skill when writing tests, designing test coverage, creating test data, or identifying edge cases. Triggers when user mentions "test case", "测试用例", "boundary", "边界条件", "test coverage", "测试覆盖", or explicitly requests help generating test inputs and scenarios.
+last_updated: 2026-04-19
 ---
 
 # Test Case Generator

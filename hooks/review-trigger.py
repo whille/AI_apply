@@ -20,6 +20,7 @@ review-trigger.py - 代码提交前自动 review 触发器
 import subprocess
 import os
 import re
+import sys
 
 # 高风险文件模式
 HIGH_RISK_PATTERNS = [
@@ -75,7 +76,8 @@ def quick_security_scan(filepath):
     try:
         with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
             content = f.read()
-    except:
+    except Exception as e:
+        print(f"  ⚠️ 无法读取文件 {filepath}: {e}", file=sys.stderr)
         return issues
 
     for issue_type, pattern in SECURITY_PATTERNS.items():
@@ -132,8 +134,8 @@ def should_trigger_review(files):
             stats = result.stdout.strip().split()[-1] if result.stdout.strip() else "0"
             try:
                 total_lines += int(stats)
-            except:
-                pass
+            except ValueError:
+                pass  # stats 格式无法解析时忽略
 
     if len(code_files) > 10 or total_lines > 500:
         return True, f"大变更: {len(code_files)} 文件, {total_lines} 行", []
