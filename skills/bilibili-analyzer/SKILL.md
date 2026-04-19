@@ -312,59 +312,73 @@ last_updated: 2026-04-19
 pip install bilibili-api-python
 ```
 
+### 登录凭证
+
+字幕获取需要登录态。凭证文件路径：`~/.claude/bilibili-credential.json`
+
+```json
+{
+  "SESSDATA": "your_sessdata",
+  "bili_jct": "your_bili_jct",
+  "buvid3": "your_buvid3"
+}
+```
+
+从浏览器 Cookie 中提取这三个字段。
+
 ### Python 示例代码
 
 ```python
 import asyncio
-from bilibili_api import user, video
+import json
+from bilibili_api import user, video, Credential
 
-async def analyze_uploader(uid: int):
-    """分析 UP 主"""
-    u = user.User(uid=uid)
-
-    # 获取信息
-    user_info = await u.get_user_info()
-    relation_info = await u.get_relation_info()
-    up_stat = await u.get_up_stat()
-    videos = await u.get_videos(pn=1, ps=10)
-
-    # 计算可信度
-    credibility = calculate_credibility(user_info, relation_info, up_stat)
-
-    return {
-        "user_info": user_info,
-        "credibility": credibility,
-        "videos": videos
-    }
+# 加载登录凭证
+def load_credential():
+    try:
+        with open("/Users/wangzhiguo/.claude/bilibili-credential.json") as f:
+            cred_data = json.load(f)
+        return Credential(
+            sessdata=cred_data["SESSDATA"],
+            bili_jct=cred_data["bili_jct"],
+            buvid3=cred_data["buvid3"]
+        )
+    except:
+        return None
 
 async def analyze_video(bvid: str):
-    """分析视频"""
-    v = video.Video(bvid=bvid)
+    """分析视频（带登录态）"""
+    credential = load_credential()
+    v = video.Video(bvid=bvid, credential=credential)
 
     info = await v.get_info()
-    owner = info["owner"]
+    cid = info.get("cid", 0)
 
-    # 获取 UP 主可信度
-    u = user.User(uid=owner["mid"])
-    relation = await u.get_relation_info()
-    up_stat = await u.get_up_stat()
-
-    credibility = calculate_credibility({}, relation, up_stat)
-
-    # 获取字幕
+    # 获取完整字幕
+    subtitle_text = ""
     try:
-        subtitle = await v.get_subtitle()
+        subtitle_info = await v.get_subtitle(cid=cid)
+        if subtitle_info and "subtitles" in subtitle_info:
+            for sub in subtitle_info["subtitles"]:
+                subtitle_url = sub.get("subtitle_url", "")
+                if subtitle_url:
+                    import httpx
+                    async with httpx.AsyncClient() as client:
+                        url = f"https:{subtitle_url}" if subtitle_url.startswith("//") else subtitle_url
+                        resp = await client.get(url)
+                        content = resp.json()
+                        for line in content.get("body", []):
+                            subtitle_text += line.get("content", "") + "\n"
     except:
-        subtitle = info.get("desc", "")
+        subtitle_text = info.get("desc", "")
 
     return {
         "info": info,
-        "subtitle": subtitle,
-        "credibility": credibility
+        "subtitle": subtitle_text,
+        "cid": cid
     }
 ```
 
-last_updated: 2026-04-19
 ---
 
 ## 注意事项
