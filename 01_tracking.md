@@ -86,13 +86,25 @@ yt-dlp --proxy socks5://127.0.0.1:1080 --write-subs --sub-langs zh "URL"
 
 ---
 
-### Task 4: RSS 订阅
+### Task 4: RSS 订阅 ✅
 
 **调研内容**：
 - 是否需要自研 MCP？
 - 现有 RSS MCP 可用性？
 
-**调研状态**：⏳ 待开始
+**核心发现**：
+| 项目 | 结果 |
+|------|------|
+| 官方 MCP Servers | ❌ 无 RSS 实现 |
+| 社区 MCP Servers | ❌ 无 RSS 实现 |
+| Python feedparser | ✅ 成熟稳定 |
+| 自研工作量 | 约 1-2 天 |
+
+**决策**：自研轻量级 RSS MCP Server，核心功能约 200 行 Python
+
+**调研状态**：✅ 已完成
+
+**详细文档**：[docs/skills/rss-subscription.md](./docs/skills/rss-subscription.md)
 
 ---
 
