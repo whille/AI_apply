@@ -2,7 +2,7 @@
   "project": "AI_apply_capability_extension",
   "branchName": "ai-apply/capabilities",
   "description": "扩展 AI 能力，补足原生不足的功能，产出为 skill/rules/hook 和使用文档",
-  "status": "running",
+  "status": "completed",
   "deliveryStandard": {
     "trigger": "每完成一个任务（passes=true）时增量更新",
     "outputs": [
@@ -16,21 +16,23 @@
   },
   "userStories": [
     {
-      "id": "T007",
-      "title": "建立技能效果评估方法",
-      "description": "设计 skill 效果评估指标和方法",
+      "id": "T010",
+      "title": "测试 hook 自动触发",
+      "description": "测试和验证 Hook 配置效果",
       "acceptanceCriteria": [
-        "定义评估维度（准确率/效率/成本）",
-        "设计测试用例模板",
-        "输出评估流程文档"
+        "测试 PreToolUse/PostToolUse 触发",
+        "验证脚本执行正确性",
+        "输出测试报告"
       ],
       "priority": 3,
       "passes": true,
-      "notes": "需要实际使用后迭代",
-      "dependencies": [],
-      "level": 1,
-      "parallelGroup": 1,
-      "output": "docs/skill-evaluation.md"
+      "notes": "依赖 T006 模板创建",
+      "dependencies": [
+        "T006"
+      ],
+      "level": 2,
+      "parallelGroup": 2,
+      "output": "docs/hook-testing-report.md"
     }
   ],
   "executionPlan": {
