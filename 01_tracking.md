@@ -113,19 +113,35 @@ yt-dlp --proxy socks5://127.0.0.1:1080 --write-subs --sub-langs zh "URL"
 
 ---
 
-### Task 4: 自我进化设计 ⏳
+### Task 4: 自我进化设计 ✅
 
 **设计内容**：
 - 调研 Hermes 自我进化机制
 - 定义 Agent 自我进化适用场景
 - 设计进化触发机制和验证流程
 
-**核心问题**：
-- 是否需要 Agent 自我进化？
-- 适用场景是什么？
-- 如何保证进化不退化？
+**核心发现**：
 
-**调研状态**：⏳ 待讨论
+| 能力 | Hermes 实现 | 可借鉴点 |
+|------|-------------|----------|
+| 自动技能生成 | 复杂任务后自动生成 Skill | ✅ 可复用 |
+| GEPA 算法 | 遗传帕累托进化 | ⚠️ 需适配 |
+| 四层内存 | Snapshot + MEMORY.md + 向量 + 外部 | ✅ 可复用 |
+| 约束门控 | 测试 + 人工审核 | ✅ 必须有 |
+
+**六大子系统**：
+1. 周期性 Nudge（每 10 turn）
+2. 后台 Review（异步复盘）
+3. 双文件存储（MEMORY.md + USER.md）
+4. 自主 Skill 创建
+5. Memory Manager 编排层
+6. 全息 Memory 检索
+
+**设计建议**：渐进式实现，Phase 1 先验证现有 Skills 效果
+
+**调研状态**：✅ 已完成
+
+**详细文档**：[docs/self-evolution-design.md](./docs/self-evolution-design.md)
 
 ---
 
