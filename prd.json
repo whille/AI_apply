@@ -361,11 +361,14 @@
     "skills": [
       "skills/info-tracker/SKILL.md",
       "skills/bilibili-analyzer/SKILL.md",
-      "~/.claude/skills/log-analyzer/SKILL.md",
-      "~/.claude/skills/test-case-generator/SKILL.md"
+      "skills/log-analyzer/SKILL.md",
+      "skills/test-case-generator/SKILL.md"
     ],
     "hooks": [
       "hooks/review-trigger.py"
+    ],
+    "scripts": [
+      "link-skills.sh"
     ],
     "docs": [
       "docs/skills/youtube-subtitle.md",

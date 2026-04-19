@@ -1,4 +1,0 @@
-# Allow project-level Claude skills
-!.claude/
-!.claude/skills/
-!.claude/skills/**
