@@ -1,0 +1,111 @@
+# 前沿跟踪
+
+> 信息获取与技术辨识 - 需调研后确定方案
+
+## 问题清单
+
+- 怎么跟踪前沿 AI 技术？YouTube、X、B站？
+- 怎么快速分辨技术含金量？
+- 如何避免信息过载？
+- 怎么从视频/公众号内容提取关键价值？
+
+---
+
+## Gap 分析
+
+| 需求 | 原生能力 | Gap |
+|------|----------|-----|
+| 网页阅读 | WebFetch ✅ | 无 |
+| RSS 订阅 | ❌ | 需 MCP 或外部工具 |
+| YouTube 字幕 | ❌ | 需工具 |
+| B站字幕 | ❌ | 需工具 |
+| 公众号内容 | ❌ | 需工具 |
+| Twitter/X 订阅 | ❌ | 需工具 |
+
+---
+
+## 调研任务
+
+### Task 1: YouTube 字幕提取
+
+**调研内容**：
+- yt-dlp 是否支持字幕下载？
+- YouTube Data API 可用性？
+- 是否需要 Whisper 转录？
+
+**预期输出**：
+```bash
+# 目标命令
+yt-subtitle <url> --lang zh --output transcript.md
+```
+
+**调研状态**：⏳ 待开始
+
+---
+
+### Task 2: B站字幕提取
+
+**调研内容**：
+- B站 API 是否开放字幕？
+- 第三方工具（如 bilibili-API-collect）
+- 是否需要 Whisper 转录？
+
+**调研状态**：⏳ 待开始
+
+---
+
+### Task 3: 公众号内容获取
+
+**调研内容**：
+- 微信读书 API？
+- 第三方抓取工具？
+- 手动导出 + AI 整理？
+
+**调研状态**：⏳ 待开始
+
+---
+
+### Task 4: RSS 订阅
+
+**调研内容**：
+- 是否需要自研 MCP？
+- 现有 RSS MCP 可用性？
+
+**调研状态**：⏳ 待开始
+
+---
+
+## 信息源分层（待工具确定后填充）
+
+```yaml
+core_sources:
+  twitter:
+    - handle: "@anthropicai"
+      priority: P0
+  blogs:
+    - name: "Anthropic Blog"
+      url: "https://anthropic.com/research"
+      priority: P0
+
+video_sources:
+  youtube:
+    - channel: "Andrej Karpathy"
+      priority: P0
+  bilibili:
+    - channel: "待补充"
+      priority: P1
+```
+
+---
+
+## 下一步
+
+1. 执行调研任务，确定可用工具
+2. 设计 MCP 或 skill 流程
+3. AI 开发落地
+4. 验证效果
+
+## 状态
+
+- 状态：待调研
+- 更新时间：2026-04-19
