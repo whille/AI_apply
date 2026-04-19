@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "skill": "test-case-generator",
+    "version": "1.0.0",
+    "generated": "2026-04-20",
+    "description": "生成测试用例，覆盖边界和异常情况"
+  },
+  "test_cases": [
+    {
+      "id": "TC-TCG-001",
+      "type": "happy_path",
+      "priority": "P0",
+      "description": "简单函数测试用例生成",
+      "input": {
+        "code": "def add(a: int, b: int) -> int:\n    return a + b",
+        "language": "python",
+        "context": "Unit test generation"
+      },
+      "expected": {
+        "test_cases_generated": true,
+        "covers_boundary": true,
+        "covers_negative": true,
+        "should_succeed": true
+      }
+    },
+    {
+      "id": "TC-TCG-002",
+      "type": "happy_path",
+      "priority": "P0",
+      "description": "带验证逻辑的函数",
+      "input": {
+        "code": "def divide(a: float, b: float) -> float:\n    if b == 0:\n        raise ValueError(\"Division by zero\")\n    return a / b",
+        "language": "python"
+      },
+      "expected": {
+        "test_cases_generated": true,
+        "covers_edge_case": true,
+        "exception_handling": true
+      }
+    },
+    {
+      "id": "TC-TCG-003",
+      "type": "boundary",
+      "priority": "P1",
+      "description": "空代码输入",
+      "input": {
+        "code": "",
+        "language": "python"
+      },
+      "expected": {
+        "test_cases_generated": false,
+        "error_message": "No code provided"
+      }
+    },
+    {
+      "id": "TC-TCG-004",
+      "type": "boundary",
+      "priority": "P1",
+      "description": "复杂嵌套函数",
+      "input": {
+        "code": "def process_data(data: dict) -> dict:\n    result = {}\n    for key, value in data.items():\n        if isinstance(value, list):\n            result[key] = [x * 2 for x in value if x > 0]\n        elif isinstance(value, dict):\n            result[key] = process_data(value)\n        else:\n            result[key] = value\n    return result",
+        "language": "python"
+      },
+      "expected": {
+        "test_cases_generated": true,
+        "covers_nested": true,
+        "min_test_cases": 5
+      }
+    },
+    {
+      "id": "TC-TCG-005",
+      "type": "error_handling",
+      "priority": "P2",
+      "description": "未知语言",
+      "input": {
+        "code": "function test() { return 1; }",
+        "language": "unknown_lang"
+      },
+      "expected": {
+        "test_cases_generated": true,
+        "fallback_used": true
+      }
+    }
+  ]
+}

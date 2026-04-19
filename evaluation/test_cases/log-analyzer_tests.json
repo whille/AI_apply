@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "skill": "log-analyzer",
+    "version": "1.0.0",
+    "generated": "2026-04-20",
+    "description": "分析日志，识别错误模式和根因"
+  },
+  "test_cases": [
+    {
+      "id": "TC-LA-001",
+      "type": "happy_path",
+      "priority": "P0",
+      "description": "标准错误日志分析",
+      "input": {
+        "log_content": "2026-04-20 10:00:00 ERROR [main] Connection failed: timeout after 30s\n2026-04-20 10:00:01 ERROR [main] Retry 1/3...\n2026-04-20 10:00:31 ERROR [main] Connection failed: timeout after 30s\n2026-04-20 10:00:32 ERROR [main] Retry 2/3...\n2026-04-20 10:01:02 ERROR [main] Connection failed: timeout after 30s\n2026-04-20 10:01:03 ERROR [main] Max retries exceeded, giving up",
+        "context": "Web application logs"
+      },
+      "expected": {
+        "errors_found": true,
+        "error_type": "ConnectionTimeout",
+        "root_cause_identified": true,
+        "suggestions_provided": true,
+        "should_succeed": true
+      }
+    },
+    {
+      "id": "TC-LA-002",
+      "type": "happy_path",
+      "priority": "P0",
+      "description": "Python 异常堆栈分析",
+      "input": {
+        "log_content": "Traceback (most recent call last):\n  File \"app.py\", line 42, in process_request\n    result = database.query(sql)\n  File \"db.py\", line 15, in query\n    cursor.execute(sql)\nsqlite3.OperationalError: no such table: users",
+        "context": "Python application error"
+      },
+      "expected": {
+        "errors_found": true,
+        "error_type": "DatabaseError",
+        "root_cause_identified": true,
+        "fix_suggestion": true
+      }
+    },
+    {
+      "id": "TC-LA-003",
+      "type": "boundary",
+      "priority": "P1",
+      "description": "空日志输入",
+      "input": {
+        "log_content": "",
+        "context": "Empty log test"
+      },
+      "expected": {
+        "errors_found": false,
+        "message": "No log content provided"
+      }
+    },
+    {
+      "id": "TC-LA-004",
+      "type": "boundary",
+      "priority": "P1",
+      "description": "无错误日志",
+      "input": {
+        "log_content": "2026-04-20 10:00:00 INFO [main] Application started\n2026-04-20 10:00:01 INFO [main] Listening on port 8080\n2026-04-20 10:00:02 INFO [main] Ready to accept connections",
+        "context": "Normal application logs"
+      },
+      "expected": {
+        "errors_found": false,
+        "status": "healthy"
+      }
+    },
+    {
+      "id": "TC-LA-005",
+      "type": "error_handling",
+      "priority": "P2",
+      "description": "混合格式日志",
+      "input": {
+        "log_content": "ERROR 2026-04-20 - Connection failed\n2026/04/20 10:00:01 ERR Database timeout\n[error] API rate limit exceeded\nStack trace: at processRequest() in app.cs:line 42",
+        "context": "Multi-format logs"
+      },
+      "expected": {
+        "errors_found": true,
+        "error_count": 4,
+        "format_detected": true
+      }
+    }
+  ]
+}

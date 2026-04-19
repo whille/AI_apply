@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "skill": "review-trigger",
+    "version": "1.0.0",
+    "generated": "2026-04-20",
+    "description": "代码提交前安全扫描"
+  },
+  "test_cases": [
+    {
+      "id": "TC-RT-001",
+      "type": "happy_path",
+      "priority": "P0",
+      "description": "检测硬编码密码",
+      "input": {
+        "files": ["auth/login.py"],
+        "content": "password = \"secret123\"",
+        "context": "Security scan"
+      },
+      "expected": {
+        "issues_found": true,
+        "issue_type": "hardcoded_password",
+        "review_triggered": true
+      }
+    },
+    {
+      "id": "TC-RT-002",
+      "type": "happy_path",
+      "priority": "P0",
+      "description": "检测 SQL 注入",
+      "input": {
+        "files": ["db/query.py"],
+        "content": "query = f\"SELECT * FROM users WHERE id = {user_id}\"",
+        "context": "Security scan"
+      },
+      "expected": {
+        "issues_found": true,
+        "issue_type": "sql_injection",
+        "review_triggered": true
+      }
+    },
+    {
+      "id": "TC-RT-003",
+      "type": "boundary",
+      "priority": "P1",
+      "description": "仅文档变更不触发",
+      "input": {
+        "files": ["README.md", "CHANGELOG.txt"],
+        "content": "# Documentation update",
+        "context": "Non-code files"
+      },
+      "expected": {
+        "issues_found": false,
+        "review_triggered": false
+      }
+    },
+    {
+      "id": "TC-RT-004",
+      "type": "boundary",
+      "priority": "P1",
+      "description": "高风险文件自动触发",
+      "input": {
+        "files": ["auth/login.py", "security/crypto.py"],
+        "content": "# New auth module",
+        "context": "High-risk files"
+      },
+      "expected": {
+        "issues_found": false,
+        "review_triggered": true,
+        "reason": "high_risk_file"
+      }
+    },
+    {
+      "id": "TC-RT-005",
+      "type": "error_handling",
+      "priority": "P2",
+      "description": "空文件列表",
+      "input": {
+        "files": [],
+        "content": "",
+        "context": "Empty input"
+      },
+      "expected": {
+        "issues_found": false,
+        "review_triggered": false,
+        "reason": "no_files"
+      }
+    }
+  ]
+}

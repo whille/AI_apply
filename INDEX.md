@@ -33,19 +33,21 @@
 | **前沿跟踪** | [01_tracking.md](./01_tracking.md) | 待设计 | 信息源管理，需调研工具 |
 | **Harness 配置** | [05_harness.md](./05_harness.md) | draft | skill/rules/hook 已有配置 |
 | **学习与吸收** | [09_learning_absorption.md](./09_learning_absorption.md) | draft | 项目学习流程 + 工具调研 |
+| **技能评估** | [evaluation/](./evaluation/) | ✅ done | 技能效果评估框架 |
 
 ### 已有 Skill 扩展
 
-| Skill | 用途 | 位置 |
-|-------|------|------|
-| **dependencies-analyzer** | 从 Markdown 提取任务，分析依赖，生成 DAG 执行计划 | `~/.claude/skills/dependencies-analyzer/` |
+| Skill | 用途 | 位置 | 评估等级 |
+|-------|------|------|----------|
+| **log-analyzer** | 日志分析与根因定位 | `~/.claude/skills/logs-analyzer/` | A (100%) |
+| **test-case-generator** | 测试用例生成 | `~/.claude/skills/test-case-generator/` | A (100%) |
+| **review-trigger** | 代码提交前安全扫描 | `hooks/review-trigger.py` | A (100%) |
+| **dependencies-analyzer** | 任务依赖分析与 DAG | `~/.claude/skills/dependencies-analyzer/` | - |
 
 ### 待设计模块
 
 | 模块 | 优先级 | Gap | 下一步 |
 |------|--------|-----|--------|
-| Log 分析 | P1 | 无现成工具 | 设计 skill |
-| 功能验收 | P2 | 无现成工具 | 设计流程 |
 | 信息源跟踪 | P2 | 多工具组合 | 调研后设计 |
 
 ---
