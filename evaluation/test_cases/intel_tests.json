@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "skill": "intel",
+    "version": "1.1.0",
+    "generated": "2026-04-20",
+    "description": "信息源跟踪系统 - 多源扫描与去重"
+  },
+  "test_cases": [
+    {
+      "id": "TC-INTEL-001",
+      "type": "happy_path",
+      "priority": "P0",
+      "description": "基础关键词扫描",
+      "input": {
+        "keyword": "AI Agent",
+        "sources": ["bilibili", "github", "web"]
+      },
+      "expected": {
+        "report_generated": true,
+        "sources_scanned": 3,
+        "results_deduped": true
+      }
+    },
+    {
+      "id": "TC-INTEL-002",
+      "type": "happy_path",
+      "priority": "P0",
+      "description": "URL去重测试",
+      "input": {
+        "items": [
+          {"url": "https://example.com/article/", "title": "Test"},
+          {"url": "https://example.com/article", "title": "Test Duplicate"}
+        ]
+      },
+      "expected": {
+        "deduped_count": 1,
+        "merged_sources": true
+      }
+    },
+    {
+      "id": "TC-INTEL-003",
+      "type": "boundary",
+      "priority": "P1",
+      "description": "空关键词处理",
+      "input": {
+        "keyword": "",
+        "sources": ["web"]
+      },
+      "expected": {
+        "report_generated": false,
+        "error_message": "keyword required"
+      }
+    },
+    {
+      "id": "TC-INTEL-004",
+      "type": "boundary",
+      "priority": "P1",
+      "description": "标题相似度去重",
+      "input": {
+        "items": [
+          {"url": "https://a.com/1", "title": "Claude 3.5 Released"},
+          {"url": "https://b.com/2", "title": "Claude 3.5 Release Announced"}
+        ]
+      },
+      "expected": {
+        "deduped_count": 1,
+        "similarity_detected": true
+      }
+    },
+    {
+      "id": "TC-INTEL-005",
+      "type": "error_handling",
+      "priority": "P2",
+      "description": "无效URL处理",
+      "input": {
+        "items": [
+          {"url": "not-a-url", "title": "Invalid"},
+          {"url": "https://valid.com", "title": "Valid"}
+        ]
+      },
+      "expected": {
+        "valid_count": 1,
+        "invalid_ignored": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "meta": {
+    "skill": "intel",
+    "evaluated_at": "2026-04-20T01:41:50.729122",
+    "version": "1.0.0"
+  },
+  "summary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "accuracy": 100.0,
+    "grade": "A"
+  },
+  "metrics": {
+    "by_priority": {
+      "P0": {
+        "total": 2,
+        "passed": 2
+      },
+      "P1": {
+        "total": 2,
+        "passed": 2
+      },
+      "P2": {
+        "total": 1,
+        "passed": 1
+      },
+      "P3": {
+        "total": 0,
+        "passed": 0
+      }
+    },
+    "by_type": {
+      "happy_path": {
+        "total": 2,
+        "passed": 2
+      },
+      "boundary": {
+        "total": 2,
+        "passed": 2
+      },
+      "error_handling": {
+        "total": 1,
+        "passed": 1
+      }
+    },
+    "avg_time_ms": 0.0,
+    "efficiency": 100.0
+  },
+  "results": [
+    {
+      "id": "TC-INTEL-001",
+      "type": "happy_path",
+      "priority": "P0",
+      "status": "passed",
+      "time_ms": 0,
+      "error": null
+    },
+    {
+      "id": "TC-INTEL-002",
+      "type": "happy_path",
+      "priority": "P0",
+      "status": "passed",
+      "time_ms": 0,
+      "error": null
+    },
+    {
+      "id": "TC-INTEL-003",
+      "type": "boundary",
+      "priority": "P1",
+      "status": "passed",
+      "time_ms": 0,
+      "error": null
+    },
+    {
+      "id": "TC-INTEL-004",
+      "type": "boundary",
+      "priority": "P1",
+      "status": "passed",
+      "time_ms": 0,
+      "error": null
+    },
+    {
+      "id": "TC-INTEL-005",
+      "type": "error_handling",
+      "priority": "P2",
+      "status": "passed",
+      "time_ms": 0,
+      "error": null
+    }
+  ],
+  "recommendation": "生产就绪，建议直接使用"
+}
