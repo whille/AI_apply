@@ -5,6 +5,93 @@
   "status": "running",
   "userStories": [
     {
+      "id": "T001",
+      "title": "YouTube 字幕提取调研",
+      "description": "调研 yt-dlp 字幕下载能力，确定实现方案",
+      "acceptanceCriteria": [
+        "验证 yt-dlp 是否支持中文字幕下载",
+        "输出使用命令和注意事项",
+        "更新 01_tracking.md 调研结果",
+        "产出决策：封装为 MCP/skill/手动使用"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "调研类任务，产出是方案决策",
+      "dependencies": [],
+      "level": 1,
+      "parallelGroup": 1,
+      "output": "docs/skills/youtube-subtitle.md"
+    },
+    {
+      "id": "T002",
+      "title": "B站字幕提取调研",
+      "description": "调研 B站字幕 API 和第三方工具",
+      "acceptanceCriteria": [
+        "搜索 B站官方 API 或第三方库",
+        "评估 bilibili-API-collect 可用性",
+        "更新 01_tracking.md 调研结果"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "调研类任务 - bilibili-API-collect 已关闭，产出基于公开 API 的方案",
+      "dependencies": [],
+      "level": 1,
+      "parallelGroup": 1,
+      "output": "docs/skills/bilibili-subtitle.md"
+    },
+    {
+      "id": "T003",
+      "title": "公众号内容获取调研",
+      "description": "调研微信公众号内容获取方案",
+      "acceptanceCriteria": [
+        "评估微信读书 API 可用性",
+        "设计手动导出 + AI 整理流程（备选）",
+        "更新 01_tracking.md 调研结果"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "生态封闭，可能需要人工介入",
+      "dependencies": [],
+      "level": 1,
+      "parallelGroup": 1,
+      "output": "docs/skills/wechat-content.md"
+    },
+    {
+      "id": "T004",
+      "title": "RSS 订阅方案调研",
+      "description": "调研 RSS MCP 或其他订阅方案",
+      "acceptanceCriteria": [
+        "搜索现有 RSS MCP 实现",
+        "评估自研 MCP 工作量",
+        "更新 01_tracking.md 调研结果"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "RSS 是成熟协议，主要选型",
+      "dependencies": [],
+      "level": 1,
+      "parallelGroup": 1,
+      "output": "docs/skills/rss-subscription.md"
+    },
+    {
+      "id": "T005",
+      "title": "整理常用 skill 组合",
+      "description": "整理已有 skill 清单，按场景分类，输出推荐配置",
+      "acceptanceCriteria": [
+        "列出所有已有 skill",
+        "按场景分类（开发/安全/知识库）",
+        "输出推荐组合表",
+        "更新 05_harness.md"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "已完成 - 分类整理 47 个 skills",
+      "dependencies": [],
+      "level": 1,
+      "parallelGroup": 1,
+      "output": "AI_apply/05_harness.md updated"
+    },
+    {
       "id": "T006",
       "title": "创建项目初始化模板",
       "description": "创建 .claude/ 目录初始化模板和使用文档",
@@ -21,6 +108,104 @@
       "level": 1,
       "parallelGroup": 1,
       "output": "templates/project-init/"
+    },
+    {
+      "id": "T007",
+      "title": "建立技能效果评估方法",
+      "description": "设计 skill 效果评估指标和方法",
+      "acceptanceCriteria": [
+        "定义评估维度（准确率/效率/成本）",
+        "设计测试用例模板",
+        "输出评估流程文档"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": "需要实际使用后迭代",
+      "dependencies": [],
+      "level": 1,
+      "parallelGroup": 1,
+      "output": "docs/skill-evaluation.md"
+    },
+    {
+      "id": "T008",
+      "title": "设计 Log 分析 skill",
+      "description": "设计日志分析专用 skill",
+      "acceptanceCriteria": [
+        "定义日志分析流程",
+        "设计错误模式识别规则",
+        "编写 skill.md 文件",
+        "测试 skill 触发"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "依赖 T005 完成后设计",
+      "dependencies": [
+        "T005"
+      ],
+      "level": 2,
+      "parallelGroup": 2,
+      "output": "~/.claude/skills/log-analyzer/SKILL.md"
+    },
+    {
+      "id": "T009",
+      "title": "设计测试 Case 生成 skill",
+      "description": "设计测试用例自动生成 skill",
+      "acceptanceCriteria": [
+        "定义 skill 触发条件",
+        "设计测试 Case 模板",
+        "验证 Claude 原生能力边界",
+        "编写 skill.md 文件"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "依赖 T005 完成后设计",
+      "dependencies": [
+        "T005"
+      ],
+      "level": 2,
+      "parallelGroup": 2,
+      "output": "~/.claude/skills/test-case-generator/SKILL.md"
+    },
+    {
+      "id": "T010",
+      "title": "测试 hook 自动触发",
+      "description": "测试和验证 Hook 配置效果",
+      "acceptanceCriteria": [
+        "测试 PreToolUse/PostToolUse 触发",
+        "验证脚本执行正确性",
+        "输出测试报告"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": "依赖 T006 模板创建",
+      "dependencies": [
+        "T006"
+      ],
+      "level": 2,
+      "parallelGroup": 2,
+      "output": "docs/hook-testing-report.md"
+    },
+    {
+      "id": "T011",
+      "title": "实现视频/公众号 MCP",
+      "description": "基于调研结果实现视频字幕和公众号内容获取 MCP",
+      "acceptanceCriteria": [
+        "根据 T001-T004 决策实现",
+        "编写 MCP Server",
+        "测试功能可用性"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "依赖调研决策 D1",
+      "dependencies": [
+        "T001",
+        "T002",
+        "T003",
+        "T004"
+      ],
+      "level": 2,
+      "parallelGroup": 2,
+      "output": "mcp_servers/media-content/"
     }
   ],
   "executionPlan": {
