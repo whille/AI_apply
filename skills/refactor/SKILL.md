@@ -404,6 +404,60 @@ Step 2: 创建 AuthManager.login...
 
 ---
 
+## AST 精确重构（Python Only）
+
+### 优势对比
+
+| 场景 | 文本级重构 | AST 精确重构 |
+|------|------------|--------------|
+| 重命名变量 | ❌ 误改字符串/注释 | ✅ 精确匹配语法节点 |
+| 重命名函数 | ⚠️ 可能漏改调用点 | ✅ 同步更新所有引用 |
+| 重命名类 | ⚠️ import 可能漏改 | ✅ 完整更新 |
+
+### 使用方式
+
+```bash
+# 重命名变量（精确，不误改字符串）
+python skills/refactor/ast_refactor.py rename-variable old_name new_name src/*.py
+
+# 重命名函数（同步更新定义和调用）
+python skills/refactor/ast_refactor.py rename-function old_func new_func src/*.py
+
+# 重命名类（同步更新定义、继承、实例化）
+python skills/refactor/ast_refactor.py rename-class OldClass NewClass src/*.py
+
+# 应用变更（默认 dry-run 模式）
+python skills/refactor/ast_refactor.py rename-variable user_id uid src/*.py --apply
+```
+
+### 示例：重命名变量
+
+```python
+# 原代码
+def process(user_id):
+    print(f"User ID: {user_id}")
+    msg = "Please provide user_id parameter"  # 字符串中的 user_id
+    user_ids = [1, 2, 3]  # 复数形式
+    return fetch(user_id)
+
+# 执行：rename-variable user_id uid
+
+# 结果（精确匹配）
+def process(uid):
+    print(f"User ID: {uid}")           # ✅ 改
+    msg = "Please provide user_id parameter"  # ❌ 不改（字符串）
+    user_ids = [1, 2, 3]               # ❌ 不改（复数形式）
+    return fetch(uid)                   # ✅ 改
+```
+
+### 限制
+
+- **仅支持 Python**（基于 `ast` 模块）
+- **可能丢失注释**（`ast.unparse()` 的已知限制）
+- **格式可能变化**（缩进、空行）
+
+---
+
 ## 与其他工具协作
 
 | 工具 | 用途 |
@@ -413,6 +467,7 @@ Step 2: 创建 AuthManager.login...
 | **`planner` agent** | 复杂场景的方案设计 |
 | **`architect` agent** | 架构评估 |
 | **`/refactor`** | 执行架构级重构（本 skill） |
+| **`ast_refactor.py`** | AST 精确重构（Python only） |
 
 ---
 
