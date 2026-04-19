@@ -32,9 +32,11 @@ HIGH_RISK_PATTERNS = [
 SECURITY_PATTERNS = {
     "hardcoded_password": r"password\s*=\s*['\"].+['\"]",
     "hardcoded_key": r"api_key\s*=\s*['\"].+['\"]|secret\s*=\s*['\"].+['\"]",
-    "sql_injection": r"f[\"'].*\{.*\}.*SELECT|f\".*\{.*\}.*INSERT",
+    # SQL injection: f-string with SQL keywords and variable interpolation
+    "sql_injection": r'f["\'][^"\']*(?:SELECT|INSERT|UPDATE|DELETE|DROP|FROM|WHERE)[^"\']*\{[^}]+\}',
     "eval_usage": r"eval\s*\(",
     "shell_true": r"shell\s*=\s*True",
+    "xss_risk": r"\.format\s*\(|%s.*?(?:SELECT|INSERT|UPDATE|DELETE)",
 }
 
 def get_staged_files():

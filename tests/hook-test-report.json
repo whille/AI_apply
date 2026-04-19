@@ -1,0 +1,165 @@
+{
+  "total": 37,
+  "passed": 37,
+  "failed": 0,
+  "tests": [
+    [
+      {
+        "name": "is_code_file(app.py)",
+        "status": "PASS"
+      },
+      {
+        "name": "is_code_file(index.js)",
+        "status": "PASS"
+      },
+      {
+        "name": "is_code_file(utils.ts)",
+        "status": "PASS"
+      },
+      {
+        "name": "is_code_file(component.tsx)",
+        "status": "PASS"
+      },
+      {
+        "name": "is_code_file(main.go)",
+        "status": "PASS"
+      },
+      {
+        "name": "is_code_file(lib.rs)",
+        "status": "PASS"
+      },
+      {
+        "name": "is_code_file(App.java)",
+        "status": "PASS"
+      },
+      {
+        "name": "is_code_file(README.md) == False",
+        "status": "PASS"
+      },
+      {
+        "name": "is_code_file(config.yaml) == False",
+        "status": "PASS"
+      },
+      {
+        "name": "is_code_file(styles.css) == False",
+        "status": "PASS"
+      },
+      {
+        "name": "is_code_file(data.json) == False",
+        "status": "PASS"
+      },
+      {
+        "name": "is_code_file(image.png) == False",
+        "status": "PASS"
+      }
+    ],
+    [
+      {
+        "name": "is_high_risk_file(auth/login.py)",
+        "status": "PASS"
+      },
+      {
+        "name": "is_high_risk_file(security/crypto.py)",
+        "status": "PASS"
+      },
+      {
+        "name": "is_high_risk_file(password_hash.go)",
+        "status": "PASS"
+      },
+      {
+        "name": "is_high_risk_file(token_manager.js)",
+        "status": "PASS"
+      },
+      {
+        "name": "is_high_risk_file(api_key_validator.ts)",
+        "status": "PASS"
+      },
+      {
+        "name": "is_high_risk_file(payment_processor.py)",
+        "status": "PASS"
+      },
+      {
+        "name": "is_high_risk_file(user_permissions.go)",
+        "status": "PASS"
+      },
+      {
+        "name": "is_high_risk_file(role_manager.js)",
+        "status": "PASS"
+      },
+      {
+        "name": "is_high_risk_file(utils.py) == False",
+        "status": "PASS"
+      },
+      {
+        "name": "is_high_risk_file(main.go) == False",
+        "status": "PASS"
+      },
+      {
+        "name": "is_high_risk_file(index.js) == False",
+        "status": "PASS"
+      },
+      {
+        "name": "is_high_risk_file(config.ts) == False",
+        "status": "PASS"
+      },
+      {
+        "name": "is_high_risk_file(helper.py) == False",
+        "status": "PASS"
+      }
+    ],
+    [
+      {
+        "name": "\u68c0\u6d4b\u5230 hardcoded_password",
+        "status": "PASS"
+      },
+      {
+        "name": "\u68c0\u6d4b\u5230 hardcoded_key",
+        "status": "PASS"
+      },
+      {
+        "name": "\u68c0\u6d4b\u5230 sql_injection",
+        "status": "PASS"
+      },
+      {
+        "name": "\u68c0\u6d4b\u5230 eval_usage",
+        "status": "PASS"
+      },
+      {
+        "name": "\u68c0\u6d4b\u5230 shell_true",
+        "status": "PASS"
+      },
+      {
+        "name": "\u68c0\u6d4b\u5230 7 \u4e2a\u95ee\u9898",
+        "status": "PASS"
+      }
+    ],
+    [
+      {
+        "name": "\u65e0\u6587\u4ef6\u53d8\u66f4\u4e0d\u89e6\u53d1",
+        "status": "PASS"
+      },
+      {
+        "name": "\u4ec5\u6587\u6863\u53d8\u66f4\u4e0d\u89e6\u53d1",
+        "status": "PASS"
+      },
+      {
+        "name": "\u9ad8\u98ce\u9669\u6587\u4ef6\u89e6\u53d1",
+        "status": "PASS"
+      },
+      {
+        "name": "\u666e\u901a\u4ee3\u7801\u6587\u4ef6\u89e6\u53d1",
+        "status": "PASS"
+      }
+    ],
+    [
+      {
+        "name": "\u7aef\u5230\u7aef: \u68c0\u6d4b\u5230\u9ad8\u98ce\u9669\u6587\u4ef6",
+        "status": "PASS"
+      },
+      {
+        "name": "\u7aef\u5230\u7aef: \u811a\u672c\u6267\u884c\u6210\u529f",
+        "status": "PASS"
+      }
+    ]
+  ]
+}
