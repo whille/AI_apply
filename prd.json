@@ -2,7 +2,7 @@
   "project": "AI_apply_capability_extension",
   "branchName": "ai-apply/capabilities",
   "description": "扩展 AI 能力，补足原生不足的功能，产出为 skill/rules/hook 和使用文档",
-  "status": "in_progress",
+  "status": "completed",
   "userStories": [
     {
       "id": "T001",
@@ -267,7 +267,8 @@
         "不需要，依赖人工迭代"
       ],
       "impact": "决定是否启动 Level 3 自我进化设计",
-      "resolved": false
+      "resolved": true,
+      "chosen": "暂缓，继续验证其他 Skills 积累经验"
     }
   ],
   "outputs": {
