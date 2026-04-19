@@ -84,7 +84,7 @@ AI 能力是动态演进的：
 
 | 场景 | 能力层 | 方案 |
 |------|--------|------|
-| Log 分析 | 扩展 | 专用 skill（待设计） |
+| Log 分析 | 扩展 | log-analyzer skill ✅ |
 | 根因定位 | 原生 + 扩展 | Claude + 调试流程 |
 | 修复验证 | 原生 | 直接用 Claude |
 
@@ -98,13 +98,20 @@ AI 能力是动态演进的：
 
 ---
 
+## 已完成
+
+- [x] 设计 Log 分析 skill → log-analyzer (Grade A)
+- [x] 测试用例生成 skill → test-case-generator (Grade A)
+- [x] 信息源跟踪系统 → intel skill (Grade A)
+- [x] 技能评估框架 → evaluation/ (Grade A)
+
 ## 待办
 
-- [ ] 设计 Log 分析 skill
-- [ ] 补充视频/公众号 MCP
-- [ ] 定期 Review 技能是否可退役
+- [ ] 补充视频/公众号 MCP（需外部依赖）
+- [ ] 定期 Review 技能是否可退役（维护阶段）
 
 ## 状态
 
-- 状态：draft
-- 更新时间：2026-04-19
+- 状态：✅ complete
+- 更新时间：2026-04-20
+- 所有 P1/P2 模块已完成，项目进入维护阶段
