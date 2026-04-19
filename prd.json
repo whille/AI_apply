@@ -360,7 +360,12 @@
   "outputs": {
     "skills": [
       "~/.claude/skills/log-analyzer/SKILL.md",
-      "~/.claude/skills/test-case-generator/SKILL.md"
+      "~/.claude/skills/test-case-generator/SKILL.md",
+      "~/.claude/skills/info-tracker/SKILL.md",
+      "~/.claude/skills/bilibili-analyzer/SKILL.md"
+    ],
+    "hooks": [
+      "~/.claude/hooks/review-trigger.py"
     ],
     "docs": [
       "docs/skills/youtube-subtitle.md",
