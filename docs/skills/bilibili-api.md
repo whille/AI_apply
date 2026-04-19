@@ -34,9 +34,9 @@
 ## 安装
 
 ```bash
-pip install bilibili-api
+pip install bilibili-api-python-python
 
-# 或从源码安装
+# 或从源码安装（最新版）
 pip install git+https://github.com/Nemo2011/bilibili-api.git
 ```
 
@@ -391,7 +391,7 @@ request_settings.set_proxy("http://127.0.0.1:7890")
 
 ```bash
 # 安装
-pip install bilibili-api
+pip install bilibili-api-python
 
 # Python 调用
 python -c "

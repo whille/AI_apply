@@ -295,7 +295,7 @@ def calculate_credibility(user_info, relation_info, up_stat):
 ### 安装 bilibili-api
 
 ```bash
-pip install bilibili-api
+pip install bilibili-api-python
 ```
 
 ### Python 示例代码
