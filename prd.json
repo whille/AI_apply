@@ -32,8 +32,8 @@
         "更新 01_tracking.md 调研结果"
       ],
       "priority": 1,
-      "passes": false,
-      "notes": "调研类任务",
+      "passes": true,
+      "notes": "调研类任务 - bilibili-API-collect 已关闭，产出基于公开 API 的方案",
       "dependencies": [],
       "level": 1,
       "parallelGroup": 1,
