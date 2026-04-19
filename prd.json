@@ -2,7 +2,7 @@
   "project": "AI_apply_capability_extension",
   "branchName": "ai-apply/capabilities",
   "description": "扩展 AI 能力，补足原生不足的功能，产出为 skill/rules/hook 和使用文档",
-  "status": "completed",
+  "status": "in_progress",
   "userStories": [
     {
       "id": "T001",
@@ -167,6 +167,24 @@
       "level": 2,
       "parallelGroup": 2,
       "output": "docs/hook-testing-report.md"
+    },
+    {
+      "id": "T011",
+      "title": "自我进化设计（借鉴 Hermes 思路）",
+      "description": "调研 Hermes 自我进化机制，设计 Agent 自优化能力",
+      "acceptanceCriteria": [
+        "调研 Hermes 项目自我进化核心思路",
+        "定义 Agent 自我进化的适用场景",
+        "设计进化触发机制和验证流程",
+        "输出自我进化设计方案文档"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "待讨论：是否需要？适用场景是什么？",
+      "dependencies": [],
+      "level": 3,
+      "parallelGroup": 3,
+      "output": "docs/self-evolution-design.md"
     }
   ],
   "executionPlan": {
@@ -193,13 +211,22 @@
         ],
         "canParallelize": true,
         "description": "实现类任务，依赖 Level 1 完成"
+      },
+      {
+        "level": 3,
+        "tasks": [
+          "T011"
+        ],
+        "canParallelize": false,
+        "description": "进阶设计任务，需要讨论决策"
       }
     ],
     "criticalPath": [
       "T005",
-      "T008"
+      "T008",
+      "T011"
     ],
-    "estimatedWaves": 2
+    "estimatedWaves": 3
   },
   "decisionPoints": [
     {
@@ -222,6 +249,25 @@
       "impact": "决定是否启动 Level 2 skill 开发",
       "resolved": true,
       "chosen": "立即开发 T008/T009"
+    },
+    {
+      "id": "D3",
+      "after": [
+        "T005",
+        "T006",
+        "T007"
+      ],
+      "before": [
+        "T011"
+      ],
+      "question": "是否需要设计 Agent 自我进化能力？",
+      "options": [
+        "立即设计，参考 Hermes",
+        "暂缓，先验证现有能力效果",
+        "不需要，依赖人工迭代"
+      ],
+      "impact": "决定是否启动 Level 3 自我进化设计",
+      "resolved": false
     }
   ],
   "outputs": {
@@ -232,9 +278,11 @@
     "docs": [
       "docs/skills/youtube-subtitle.md",
       "docs/skills/bilibili-subtitle.md",
+      "docs/skills/bilibili-api.md",
       "docs/skills/rss-subscription.md",
       "docs/skill-evaluation.md",
-      "docs/hook-testing-report.md"
+      "docs/hook-testing-report.md",
+      "docs/self-evolution-design.md"
     ],
     "templates": [
       "templates/project-init/"

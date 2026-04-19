@@ -63,14 +63,31 @@ yt-dlp --proxy socks5://127.0.0.1:1080 --write-subs --sub-langs zh "URL"
 
 ---
 
-### Task 2: B站字幕提取
+### Task 2: B站信息获取 ✅
 
 **调研内容**：
-- B站 API 是否开放字幕？
-- 第三方工具（如 bilibili-API-collect）
-- 是否需要 Whisper 转录？
+- B站 API 是否开放？
+- 第三方库（如 bilibili-api）
+- 获取 UP 主信息、判断知名度
 
-**调研状态**：⏳ 待开始
+**核心发现**：
+| 能力 | 方法 | 支持情况 |
+|------|------|----------|
+| 用户基本信息 | `User.get_user_info()` | ✅ |
+| 粉丝/关注数 | `User.get_relation_info()` | ✅ |
+| UP 主统计 | `User.get_up_stat()` | ✅ |
+| 视频信息 | `Video.get_info()` | ✅ |
+
+**库信息**：
+- 仓库：github.com/Nemo2011/bilibili-api
+- Stars：3,826
+- 特点：全异步、维护活跃
+
+**推荐方案**：使用 bilibili-api 库，计算 UP 主信服力分数
+
+**调研状态**：✅ 已完成
+
+**详细文档**：[docs/skills/bilibili-api.md](./docs/skills/bilibili-api.md)
 
 ---
 
@@ -93,6 +110,22 @@ yt-dlp --proxy socks5://127.0.0.1:1080 --write-subs --sub-langs zh "URL"
 **调研状态**：✅ 已完成
 
 **详细文档**：[docs/skills/rss-subscription.md](./docs/skills/rss-subscription.md)
+
+---
+
+### Task 4: 自我进化设计 ⏳
+
+**设计内容**：
+- 调研 Hermes 自我进化机制
+- 定义 Agent 自我进化适用场景
+- 设计进化触发机制和验证流程
+
+**核心问题**：
+- 是否需要 Agent 自我进化？
+- 适用场景是什么？
+- 如何保证进化不退化？
+
+**调研状态**：⏳ 待讨论
 
 ---
 
@@ -121,12 +154,11 @@ video_sources:
 
 ## 下一步
 
-1. 执行调研任务，确定可用工具
-2. 设计 MCP 或 skill 流程
-3. AI 开发落地
-4. 验证效果
+1. ✅ 调研 B站信息获取方案 → bilibili-api 库可用
+2. ⏳ 讨论：是否需要自我进化能力？
+3. 验证已有 Skills 效果
 
 ## 状态
 
-- 状态：待调研
+- 状态：调研完成，待决策自我进化
 - 更新时间：2026-04-19
