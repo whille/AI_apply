@@ -16,6 +16,7 @@ SELF_SKILLS=(
     "bilibili-analyzer"
     "log-analyzer"
     "test-case-generator"
+    "deep-review"
 )
 
 # 自研 hooks 列表

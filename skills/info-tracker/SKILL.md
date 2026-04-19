@@ -1,59 +1,110 @@
 ---
-name: info-tracker
-description: 扫描并分析信息源，生成每日报告。整合 B站/GitHub/RSS 等多源信息，基于可信度筛选高质量内容。Use when: 信息扫描, 每日报告, info scan, daily scan, track sources.
+name: intel
+description: 持续信息跟踪与情报收集。扫描 B站/GitHub/RSS 等多源信息，自动去重、评分、筛选，生成报告并导入 Wiki。Use when: 情报收集, 信息跟踪, intel, scan, 信息源监控.
 user-invocable: true
-argument-hint: "[daily|weekly] 或 [bilibili|github|rss] <关键词>"
+argument-hint: "[scan <主题>] 或 [bilibili|github|rss] <关键词>"
 triggers:
-  - "信息扫描"
-  - "每日报告"
-  - "info scan"
-  - "daily scan"
-  - "track sources"
-  - "信息源"
+  - "情报收集"
+  - "信息跟踪"
+  - "intel"
+  - "信息源监控"
+  - "持续跟踪"
+  - "scan"
 ---
 
-# Info Tracker
+# Intel
 
-统一信息源跟踪和分析工具。
+持续信息跟踪与情报收集工具，参考 [Horizon](https://github.com/Thysrael/Horizon) 架构设计。
 
 ---
 
-## 功能
+## 架构设计（参考 Horizon）
 
-1. **多源扫描**：B站 / GitHub / RSS 统一入口
-2. **可信度评估**：自动筛选高质量内容
-3. **AI 总结**：提取关键信息和洞察
-4. **结构化报告**：Markdown 格式输出
+```
+Pipeline: Fetch → Deduplicate → Score → Filter → Enrich → Summarize → Deploy
+
+ ┌──────────┐                                             ┌──────────┐
+ │ Hacker   │                                             │  部署    │
+┌─────────┐ │ News  │ ┌──────────┐ ┌──────────┐ ┌──────────┐ │ GitHub   │
+│ RSS     │──▶Reddit│──▶│ AI Score │──▶│ Enrich   │──▶│ Summary  │──▶│ Pages    │
+│ B站     │ │ GitHub │ │ & Filter │ │ & Search │ │ & Deploy│ │ 本地 MD  │
+└─────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────┘
+```
+
+**核心特性**：
+1. ✅ 先评估源质量，筛选 TopN
+2. ✅ B站完全委托 `/bilibili-analyzer`
+3. ✅ 跨源去重（Horizon 方案）
+
+---
+
+## 核心特性
+
+| 特性 | 说明 |
+|------|------|
+| 多源并行 | B站 / GitHub / RSS 异步采集 |
+| 源质量评估 | 先评分，再筛选 TopN |
+| 深度内容获取 | 字幕/正文/README，不仅标题 |
+| 智能去重 | URL级 + 跨源合并 |
+| 持久化 | Markdown 报告 + history.json |
 
 ---
 
 ## 使用方式
 
-### 每日扫描
+### 默认扫描（使用配置的信息源）
 
 ```bash
-/info-tracker daily
+/intel
 ```
 
-扫描所有已配置的信息源，生成每日报告。
+使用 `~/.claude/config/intel.yaml` 中配置的信息源进行扫描。
+
+### 临时调研某个主题
+
+```bash
+/intel scan "Rust async 编程"
+/intel scan "量化交易策略"
+```
 
 ### 单源扫描
 
 ```bash
-# B站关键词搜索
-/info-tracker bilibili Claude Agent
+# B站：完全委托 bilibili-analyzer
+/bilibili-analyzer Claude Agent 2026
 
 # GitHub Trending
-/info-tracker github trending
+/intel github trending
 
-# RSS 订阅
-/info-tracker rss https://example.com/feed
+# RSS 指定源
+/intel rss https://openai.com/blog/rss.xml
 ```
 
-### 每周汇总
+---
+
+## 定时执行（由调用者控制）
+
+用系统定时任务控制扫描频率：
 
 ```bash
-/info-tracker weekly
+# 每天 8:00 执行
+0 8 * * * claude "/intel" >> ~/logs/intel.log 2>&1
+
+# 每周一 8:00 执行（周报）
+0 8 * * 1 claude "/intel" >> ~/logs/intel-weekly.log 2>&1
+```
+
+或手动调用：
+
+```bash
+# 每日
+/intel
+
+# 发现值得深入研究时
+/deep-research "某个主题"
+
+# 导入知识库
+/llm-wiki ingest ~/.claude/intel/reports/$(date +%Y-%m-%d).md
 ```
 
 ---
@@ -64,287 +115,499 @@ triggers:
 触发扫描
     │
     ▼
-┌─────────────────┐
-│ 1. 识别扫描源    │
-│ - 读取配置      │
-│ - 确定范围      │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│ 2. 信息采集      │
-│ - B站: bilibili-api │
-│ - GitHub: gh CLI │
-│ - RSS: WebFetch  │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│ 3. 可信度评估    │
-│ - B站: 粉丝+等级+认证 │
-│ - GitHub: Stars+更新 │
-│ - RSS: 来源声誉  │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│ 4. 质量筛选      │
-│ - 可信度 ≥ 60: 高 │
-│ - 可信度 40-59: 中│
-│ - 可信度 < 40: 低 │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│ 5. AI 总结      │
-│ - 高价值内容深入 │
-│ - 中价值内容简述 │
-│ - 低价值内容过滤 │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│ 6. 生成报告      │
-│ - Markdown 格式  │
-│ - 按价值排序    │
-│ - 行动建议      │
-└─────────────────┘
+┌─────────────────────────────────────┐
+│ Phase 1: 多源并行扫描（元数据）       │
+│ ┌─────────────┐ ┌─────────┐ ┌─────┐ │
+│ │ /bilibili-  │ │ gh CLI  │ │RSS  │ │
+│ │ analyzer    │ │Trending │ │Fetch│ │
+│ │ (B站专用)   │ │         │ │     │ │
+│ └──────┬──────┘ └────┬────┘ └──┬──┘ │
+└────────┼─────────────┼──────────┼────┘
+         │             │          │
+         └─────────────┼──────────┘
+                       ▼
+┌─────────────────────────────────────┐
+│ Phase 2: 源质量评估 → TopN 筛选      │
+│ ─────────────────────────────────── │
+│ 评分公式：                          │
+│   Score = 基础分 + 时效性 + 来源权重 │
+│                                     │
+│ 筛选规则：                          │
+│   - Top 20 (Score ≥ 40)            │
+│   - 可通过配置调整阈值               │
+│                                     │
+│ 评分示例：                          │
+│ ┌────────────────┬─────┬─────┬────┐│
+│ │ 来源           │基础 │时效│总分 ││
+│ ├────────────────┼─────┼────┼──── ││
+│ │ OpenAI Blog    │ 30  │ +20│ 50  ││
+│ │ Hugging Face   │ 20  │ +20│ 40  ││
+│ │ r/LocalLLaMA   │ 10  │ +15│ 25  ││
+│ │ B站UP主(100万粉)│ 40  │ +10│ 50  ││
+│ └────────────────┴─────┴────┴────┘│
+└────────────────┬────────────────────┘
+                 │
+                 ▼
+┌─────────────────────────────────────┐
+│ Phase 3: 获取完整内容                 │
+│ ─────────────────────────────────── │
+│ B站视频：                            │
+│   └─ 委托 /bilibili-analyzer         │
+│      └─ 字幕 + 简介 + UP主信息        │
+│                                     │
+│ 文章：                               │
+│   └─ WebFetch 获取正文               │
+│                                     │
+│ GitHub：                             │
+│   └─ gh repo view + README          │
+└────────────────┬────────────────────┘
+                 │
+                 ▼
+┌─────────────────────────────────────┐
+│ Phase 4: 跨源去重                    │
+│ ─────────────────────────────────── │
+│ Horizon 方案：                       │
+│   - URL 级去重（主键）               │
+│   - 跨源合并（同URL不同来源合并）    │
+│                                     │
+│ 检查 history.json → 过滤已存在      │
+└────────────────┬────────────────────┘
+                 │
+                 ▼
+┌─────────────────────────────────────┐
+│ Phase 5: AI 深度分析                 │
+│ ─────────────────────────────────── │
+│ 高价值 (≥60)：                       │
+│   └─ 完整摘要 + 技术要点 + 行动建议  │
+│                                     │
+│ 中价值 (40-59)：                     │
+│   └─ 简要概述                        │
+└────────────────┬────────────────────┘
+                 │
+                 ▼
+┌─────────────────────────────────────┐
+│ Phase 6: 持久化输出                  │
+│ ─────────────────────────────────── │
+│ ├─ reports/YYYY-MM-DD.md           │
+│ ├─ history.json (更新去重索引)      │
+│ └─ source_scores.json (源评分历史)  │
+└─────────────────────────────────────┘
 ```
 
 ---
 
-## B站信息源
+## 源质量评估算法
 
-### 扫描 UP 主更新
-
-使用 `User.get_videos()` 获取最新投稿：
+### 评分公式
 
 ```python
-from bilibili_api import user
+class SourceScorer:
+    """源质量评分引擎"""
 
-u = user.User(uid=UP主UID)
-videos = await u.get_videos(pn=1, ps=10)
+    def calc_score(self, item: dict, config: dict) -> int:
+        """
+        评分公式：
+        Score = 基础分 + 时效性 + 来源权重 + 内容质量
+
+        各源基础分：
+        - OpenAI Blog: 30
+        - Hugging Face: 20
+        - r/LocalLLaMA: 10
+        - B站(认证UP): 40
+        - GitHub(Star>k): 20
+        """
+        base = config.get("credibility_boost", 10)
+        freshness = self._calc_freshness(item.get("published"))
+        quality = self._calc_quality(item)
+
+        return min(base + freshness + quality, 100)
+
+    def _calc_freshness(self, published: datetime) -> int:
+        """时效性评分（20分上限）"""
+        if not published:
+            return 0
+
+        age_hours = (datetime.now() - published).total_seconds() / 3600
+
+        if age_hours <= 24:      return 20  # 24h内
+        elif age_hours <= 72:    return 15  # 3天内
+        elif age_hours <= 168:   return 10  # 7天内
+        elif age_hours <= 720:   return 5   # 30天内
+        else:                    return 0
+
+    def _calc_quality(self, item: dict) -> int:
+        """内容质量评分（30分上限）"""
+        score = 0
+
+        # 标题相关度
+        if self._is_ai_agent_related(item.get("title", "")):
+            score += 15
+
+        # 有完整内容
+        if item.get("has_full_content"):
+            score += 10
+
+        # 来源可信度
+        if item.get("source") in ["openai-blog", "huggingface-blog"]:
+            score += 5
+
+        return min(score, 30)
+
+    def filter_topn(self, items: list, limit: int = 20, min_score: int = 40) -> list:
+        """筛选 TopN"""
+        scored = [(self.calc_score(item, {}), item) for item in items]
+        scored.sort(key=lambda x: x[0], reverse=True)
+
+        return [item for score, item in scored
+                if score >= min_score][:limit]
 ```
 
-### 关键词搜索
+### 源基础分配置
 
-使用搜索功能发现相关视频：
-
-```python
-from bilibili_api import search
-
-results = await search.search("Claude Agent")
-```
-
-### 可信度判断
-
-```python
-def calc_bilibili_credibility(user_info, relation_info):
-    """B站 UP 主可信度计算"""
-    score = 0
-
-    # 粉丝数 (40分)
-    follower = relation_info.get("follower", 0)
-    if follower >= 1000000: score += 40
-    elif follower >= 100000: score += 30
-    elif follower >= 10000: score += 20
-    elif follower >= 1000: score += 10
-
-    # 等级 (15分)
-    level = user_info.get("level", 0)
-    score += min(level * 2.5, 15)
-
-    # 认证 (20分)
-    if user_info.get("official", {}).get("role"):
-        score += 20
-
-    # 总播放量 (15分)
-    archive_view = user_info.get("archive_view", 0)
-    if archive_view >= 10000000: score += 15
-    elif archive_view >= 1000000: score += 10
-
-    return min(score, 100)
-```
+| 源 | 基础分 | 说明 |
+|---|--------|------|
+| OpenAI Blog | 30 | 官方权威 |
+| Hugging Face Blog | 20 | 技术深度 |
+| r/LocalLLaMA | 10 | 社区讨论 |
+| GitHub Trending (AI) | 20 | 项目热度 |
+| B站认证UP主 | 40 | + 粉丝数加成 |
+| Hacker News | 15 | 技术社区 |
 
 ---
 
-## GitHub 信息源
+## B站集成（委托 bilibili-analyzer）
 
-### Trending 扫描
-
-```bash
-gh api repos --method GET -F q="language:python" -F sort="stars" -F order="desc"
-```
-
-### 项目分析
-
-```bash
-# GitMCP 概览
-gh repo view owner/repo
-
-# Repomix 打包
-repomix --include "**/*.py"
-```
-
-### 可信度判断
+### 完全委托模式
 
 ```python
-def calc_github_credibility(repo_info):
-    """GitHub 项目可信度计算"""
-    score = 0
+# intel 不直接处理 B站
+# 所有 B站相关操作委托给 bilibili-analyzer
 
-    # Stars (30分)
-    stars = repo_info.get("stargazers_count", 0)
-    if stars >= 10000: score += 30
-    elif stars >= 1000: score += 20
-    elif stars >= 100: score += 10
+async def scan_bilibili(keywords: list, year: int):
+    """
+    B站扫描完全委托给 /bilibili-analyzer
 
-    # 最近更新 (25分)
-    updated = repo_info.get("updated_at")
-    days = (now - updated).days
-    if days <= 7: score += 25
-    elif days <= 30: score += 20
-    elif days <= 90: score += 10
+    调用方式：
+    /bilibili-analyzer {keywords} {year}
 
-    # Forks (20分)
-    forks = repo_info.get("forks_count", 0)
-    if forks >= 1000: score += 20
-    elif forks >= 100: score += 10
-
-    return min(score, 100)
+    bilibili-analyzer 提供：
+    - 关键词搜索
+    - UP主可信度评估（粉丝+等级+认证）
+    - 视频字幕获取
+    - AI 视频摘要
+    """
+    # 通过 Skill 工具调用
+    pass
 ```
 
----
-
-## RSS 信息源
-
-### RSS 解析
-
-```python
-import feedparser
-
-feed = feedparser.parse("https://example.com/feed")
-for entry in feed.entries[:10]:
-    print(f"Title: {entry.title}")
-    print(f"Link: {entry.link}")
-    print(f"Published: {entry.published}")
-```
-
-### 内容提取
-
-```bash
-# WebFetch 获取正文
-# 使用 Claude 的 WebFetch 工具
-```
-
----
-
-## 报告模板
+### bilibili-analyzer 输出格式
 
 ```markdown
-# 信息扫描报告
+# B站分析报告
 
-> 扫描时间：{timestamp}
-> 扫描源：{sources}
+## 搜索关键词：Claude Agent 2026
 
----
+### 🌟 高价值视频
 
-## 📊 统计
-
-| 指标 | 数值 |
-|------|------|
-| 扫描项目 | {total} |
-| 高价值 | {high} |
-| 中等价值 | {medium} |
-| 低价值 | {low} |
-
----
-
-## 🌟 高价值内容 (可信度 ≥ 60)
-
-### 1. [{title}]({url})
+#### 1. [视频标题](https://www.bilibili.com/video/BV1xxx)
 
 | 属性 | 值 |
 |------|---|
-| 来源 | {source} |
-| 可信度 | {score} |
+| UP主 | 名称（粉丝数） |
+| 可信度 | 75/100 |
+| 发布时间 | 2026-04-19 |
 
-**摘要**：{summary}
+**字幕摘要**：
+{从字幕提取的关键内容}
 
-**行动建议**：{action}
-
----
-
-## 📝 中等价值内容 (40-59)
-
-> 共 {count} 项
-
----
-
-## 📋 低价值内容 (< 40)
-
-> 已自动过滤
-
----
-
-## 💡 趋势观察
-
-- {trend_1}
-- {trend_2}
+**技术要点**：
+- 要点1
+- 要点2
 ```
 
 ---
 
-## 配置文件
+## 存储结构
 
-创建 `~/.claude/config/info-tracker.yaml`：
+```
+~/.claude/intel/
+├── history.json              # 去重索引
+├── source_scores.json        # 源评分历史（新增）
+├── reports/
+│   ├── 2026-04-19.md        # 每日报告
+│   └── 2026-week16.md       # 每周汇总
+└── cache/
+    ├── bilibili_up/          # UP主信息缓存
+    └── rss_feeds/            # RSS 缓存
+```
+
+### source_scores.json（新增）
+
+```json
+{
+  "sources": {
+    "openai-blog": {
+      "avg_score": 85,
+      "total_items": 120,
+      "high_value_rate": 0.75,
+      "last_update": "2026-04-19"
+    },
+    "r/LocalLLaMA": {
+      "avg_score": 45,
+      "total_items": 200,
+      "high_value_rate": 0.30,
+      "last_update": "2026-04-19"
+    }
+  },
+  "rankings": [
+    {"source": "openai-blog", "score": 85},
+    {"source": "huggingface-blog", "score": 78},
+    {"source": "bilibili-certified", "score": 72},
+    {"source": "github-trending", "score": 65},
+    {"source": "r/LocalLLaMA", "score": 45}
+  ]
+}
+```
+
+---
+
+## 默认配置
 
 ```yaml
-# B站关注配置
+# ~/.claude/config/intel.yaml
+
+topic: "AI Agent"
+
+# 源质量配置（用于 TopN 筛选）
+sources:
+  openai-blog:
+    base_score: 30
+    min_items: 5
+
+  huggingface-blog:
+    base_score: 20
+    min_items: 10
+
+  r/LocalLLaMA:
+    base_score: 10
+    min_items: 20
+
+  github-trending:
+    base_score: 20
+    min_items: 10
+
+  bilibili:
+    base_score: 15
+    certified_up_bonus: 25  # 认证UP加成
+
+# B站配置（委托 bilibili-analyzer）
 bilibili:
-  follow_uids:
-    - 12345678
+  use_skill: "/bilibili-analyzer"
   keywords:
-    - "Claude"
-    - "Agent"
+    - "Claude Agent"
+    - "AI Agent 开发"
+    - "智能体"
   min_credibility: 40
 
 # GitHub 配置
 github:
-  trending_languages:
-    - python
-    - typescript
+  languages: [python, typescript]
+  topics: ["ai-agent", "llm-agent"]
   watch_repos:
     - "anthropics/claude-code"
+    - "openai/openai-agents-python"
 
 # RSS 配置
 rss:
   feeds:
-    - name: "Anthropic Blog"
-      url: "https://www.anthropic.com/rss"
+    - name: "OpenAI Blog"
+      url: "https://openai.com/blog/rss.xml"
+      base_score: 30
 
-# 输出配置
-output:
-  path: "~/notes/info-tracker/"
-  daily_retention: 30
+    - name: "Hugging Face Blog"
+      url: "https://huggingface.co/blog/feed.xml"
+      base_score: 20
+
+    - name: "r/LocalLLaMA"
+      url: "https://www.reddit.com/r/LocalLLaMA/.rss"
+      base_score: 10
+
+# TopN 筛选配置
+filtering:
+  daily:
+    top_n: 10
+    min_score: 50
+  weekly:
+    top_n: 20
+    min_score: 40
 ```
 
 ---
 
-## 输出示例
+## 与 Horizon 对比
 
-执行 `/info-tracker bilibili Claude Agent` 后：
-
-1. 搜索 B站关键词 "Claude Agent"
-2. 获取 UP 主信息，计算可信度
-3. 筛选可信度 ≥ 40 的视频
-4. AI 总结高价值内容
-5. 输出 Markdown 报告
+| 特性 | Horizon | intel |
+|------|---------|--------------|
+| 多源聚合 | ✅ 5源 | ✅ 4源 |
+| AI 评分 | ✅ 0-10分 | ✅ 0-100分 |
+| 跨源去重 | ✅ URL合并 | ✅ 同方案 |
+| 内容丰富 | ✅ 搜索+社区 | ⚠️ RSS正文 |
+| B站支持 | ❌ 无 | ✅ 完整支持 |
+| MCP集成 | ✅ 内置 | ⚠️ 使用 Claude Code 原生 |
+| 部署 | GitHub Pages | 本地 MD |
 
 ---
 
-## 注意事项
+## 与 llm-wiki 集成（知识库积累）
 
-1. **频率限制**：B站 API 有频率限制，控制并发数
-2. **代理问题**：YouTube/Twitter 需代理，暂不扫描
-3. **缓存利用**：UP 主信息可缓存，减少重复请求
+### 设计理念
+
+`/intel` 负责**信息扫描**，`/llm-wiki` 负责**知识积累**。
+
+```
+┌─────────────────┐      ┌─────────────────┐
+│ /intel   │ ───▶ │  /llm-wiki      │
+│ 信息扫描        │      │  知识积累        │
+│ ─────────────── │      │ ─────────────── │
+│ 多源扫描        │      │ 实体提取         │
+│ TopN筛选        │ ───▶ │ 主题关联         │
+│ MD报告          │      │ 双向链接         │
+└─────────────────┘      └─────────────────┘
+```
+
+### 协作流程
+
+```
+用户: /intel daily
+      ↓
+  扫描信息源 → 筛选 TopN → 生成 MD 报告
+      ↓
+  保存到 reports/YYYY-MM-DD.md
+      ↓
+  自动提示: "是否导入到知识库？[y/n]"
+      ↓
+用户: y
+      ↓
+  /llm-wiki ingest <报告路径>
+      ↓
+  知识库增长:
+  ├── wiki/entities/Claude-Agent.md (新增)
+  ├── wiki/entities/MCP-Protocol.md (新增)
+  ├── wiki/topics/Agent-SDK.md (更新)
+  └── wiki/sources/2026-04-19-daily.md (素材页)
+```
+
+### 手动导入
+
+```bash
+# 扫描后手动导入
+/intel daily
+/llm-wiki ingest ~/.claude/intel/reports/2026-04-19.md
+
+# 批量导入历史报告
+/llm-wiki batch-ingest ~/.claude/intel/reports/
+```
+
+### 自动导入配置
+
+在 `~/.claude/config/intel.yaml` 中配置：
+
+```yaml
+wiki:
+  enabled: true
+  root: "~/Documents/AI-Agent-Wiki"  # wiki 根目录
+  auto_ingest: true                   # 报告生成后自动提示导入
+```
+
+### 输出格式适配 llm-wiki
+
+intel 的报告格式符合 llm-wiki 的 ingest 要求：
+
+```markdown
+# AI Agent 信息扫描报告
+
+> 扫描时间：2026-04-19
+
+## 🌟 高价值内容
+
+### 1. [OpenAI Agents SDK 更新](https://openai.com/...)
+
+**摘要**：...
+**技术要点**：...
+**来源**：OpenAI Blog
+
+<!-- llm-wiki 解析时提取：
+- 实体：OpenAI Agents SDK
+- 主题：Agent SDK, AI Agent
+- 来源：OpenAI Blog
+-->
+```
+
+### 知识库目录结构
+
+```
+~/Documents/AI-Agent-Wiki/
+├── .wiki-schema.md
+├── index.md
+├── purpose.md                    # 研究方向
+├── raw/
+│   └── intel/            # intel 报告存放
+│       ├── 2026-04-19.md
+│       └── 2026-04-20.md
+├── wiki/
+│   ├── entities/                # 实体页（自动生成）
+│   │   ├── Claude-Agent.md
+│   │   ├── MCP-Protocol.md
+│   │   └── Agent-SDK.md
+│   ├── topics/                  # 主题页（自动关联）
+│   │   └── AI-Agent.md
+│   └── sources/                 # 素材摘要
+│       └── 2026-04-19-daily.md
+└── log.md
+```
+
+### 初始化知识库
+
+首次使用需要初始化：
+
+```bash
+/llm-wiki init
+
+# 或直接在 intel 配置后自动触发
+/intel daily  # 首次运行会提示初始化 wiki
+```
+
+### 查询知识库
+
+积累后可以查询：
+
+```bash
+# 快速查询
+/llm-wiki query Agent SDK 和 MCP 的关系
+
+# 深度报告
+/llm-wiki digest AI Agent 技术演进
+
+# 知识图谱
+/llm-wiki graph
+```
+
+---
+
+## 快速开始（完整流程）
+
+## 快速开始
+
+```bash
+# 1. 首次扫描
+/intel daily
+
+# 2. 测试 B站
+/bilibili-analyzer Claude Agent 2026
+
+# 3. 查看报告
+cat ~/.claude/intel/reports/$(date +%Y-%m-%d).md
+
+# 4. 查看源评分历史
+cat ~/.claude/intel/source_scores.json
+```

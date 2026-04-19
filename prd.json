@@ -362,7 +362,8 @@
       "skills/info-tracker/SKILL.md",
       "skills/bilibili-analyzer/SKILL.md",
       "skills/log-analyzer/SKILL.md",
-      "skills/test-case-generator/SKILL.md"
+      "skills/test-case-generator/SKILL.md",
+      "skills/deep-review/SKILL.md"
     ],
     "hooks": [
       "hooks/review-trigger.py"
