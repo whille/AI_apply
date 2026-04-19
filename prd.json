@@ -282,7 +282,8 @@
       "docs/skills/rss-subscription.md",
       "docs/skill-evaluation.md",
       "docs/hook-testing-report.md",
-      "docs/self-evolution-design.md"
+      "docs/self-evolution-design.md",
+      "docs/skills-verification-report.md"
     ],
     "templates": [
       "templates/project-init/"
