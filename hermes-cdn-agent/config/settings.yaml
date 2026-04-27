@@ -1,0 +1,26 @@
+# Hermes CDN Agent 配置
+
+# 模型配置
+model:
+  default: "claude-sonnet-4-6"
+  fallback: "claude-haiku-4-5"
+
+# CDN 配置
+cdn:
+  api_base: "${CDN_API_BASE:-https://api.cdn.example.com}"
+  api_key: "${CDN_API_KEY}"
+
+# 监控配置
+monitoring:
+  default_time_range: "1h"
+  max_samples: 10000
+
+# 安全配置
+security:
+  trust_level: "ASK_FIRST"  # MANUAL_ONLY, APPROVE_ALWAYS, APPROVE_ONCE, ASK_FIRST, AUTO_WITH_NOTIFY, FULL_TRUST
+  audit_log: "logs/audit.jsonl"
+
+# 记忆配置
+memory:
+  session_storage: "sqlite"  # sqlite, memory, file
+  db_path: "data/hermes.db"
